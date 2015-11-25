@@ -1,6 +1,6 @@
 # Jsender
 
-JSender facilitates a simple jsend implementation for ruby. You can report success, fail, success with data, fail with data. The jsend response contains 'status' and 'data'. 'data' contains what-ever you put in it, as well as a 'notifications' array. Helpers are provided to check whether a notification is present and whether a specific data key is present.
+JSender facilitates a simple jsend implementation for ruby. You can report success, error, fail, success with data, fail with data. The jsend response contains 'status' and 'data'. 'data' contains what-ever you put in it, as well as a 'notifications' array. Helpers are provided to check whether a notification is present and whether a specific data key is present. On error the response contains 'message'.
 
 ## Installation
 
@@ -25,20 +25,41 @@ Or install it yourself as:
   
   class CodeClass
     include Jsender
-  
-    def action(code)
-      return success if code == 1
-      return success('code 2 selected') if code == 2
-      return success_data({ 'a' => 'A', 'b' => 'B' }) if code == 3
-      return success('some data for you', ['d', 'a', 't', 'a']) if code == 4
-      return fail('code 5 selected') if code == 5
-      return fail_data({ 'a' => 'A', 'b' => 'B' }) if code == 6
-      return fail('some errors for you', ['d', 'a', 't', 'a']) if code == 7
-      return error if code == 8
-      return error('something went wrong') if code == 9
-      fail
-    end
   end
+
+  iut = CodeClass.new
+  iut.success
+  => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["success"]}} 
+
+  iut.success('happy day')
+  => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["happy day"]}} 
+
+  result = iut.success_data({ 'a' => 'A', 'b' => 'B' })
+  => {"status"=>"success", "data"=>{"a"=>"A", "b"=>"B", "notifications"=>["success"]}} 
+  iut.has_data?(result, 'b')
+  => true
+
+  result = iut.success('some data for you', ['d', 'a', 't', 'a'])
+  => {"status"=>"success", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["some data for you"]}} 
+  iut.has_data?(result, 'result')
+  => true
+  iut.notifications_include?(result, 'ata fo')
+  => true
+
+  iut.error
+  => {"status"=>"error", "message"=>nil} 
+
+  iut.error('something went wrong')
+  => {"status"=>"error", "message"=>"something went wrong"} 
+
+  iut.fail
+  => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["fail"]}} 
+
+  iut.fail('a failure occurred')
+  => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["a failure occurred"]}} 
+
+  iut.fail('a failure occurred', ['d', 'a', 't', 'a'])
+  => {"status"=>"fail", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["a failure occurred"]}} 
 ```
 
 ```
