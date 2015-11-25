@@ -26,8 +26,14 @@ Or install it yourself as:
   class CodeClass
     include Jsender
   end
+```
 
+```
   iut = CodeClass.new
+```
+
+
+```
   iut.success
   => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["success"]}} 
 
@@ -62,53 +68,6 @@ Or install it yourself as:
   => {"status"=>"fail", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["a failure occurred"]}} 
 ```
 
-```
-  iut = CodeClass.new
-```
-
-```
-  iut.action(1)
-  => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["success"]}} 
-
-  iut.action(2)
-  => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["code 2 selected"]}} 
-
-  iut.action(3)
-  => {"status"=>"success", "data"=>{"a"=>"A", "b"=>"B", "notifications"=>["success"]}} 
-
-  iut.action(4)
-  => {"status"=>"success", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["some data for you"]}} 
-
-  iut.action(5)
-  => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["code 5 selected"]}} 
-
-  iut.action(6)
-  => {"status"=>"fail", "data"=>{"a"=>"A", "b"=>"B", "notifications"=>["fail"]}} 
-
-  iut.action(7)
-  => {"status"=>"fail", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["some errors for you"]}} 
-  iut.has_data?(result, 'a')
-  => true 
-  iut.has_data?(result, 'z')
-  => false 
-
-  iut.action(0)
-  => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["fail"]}} 
-
-  iut.action(8)
-  => {"status"=>"error", "message"=>nil} 
-
-  iut.action(9)
-   => {"status"=>"error", "message"=>"something went wrong"} 
-
-  result = iut.action(6)
-  iut.notifications_include?(result, "ail")
-  => true 
-  iut.notifications_include?(result, "not")
-  => false 
-
-```
-
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -117,8 +76,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/hetznerZA/jsender. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/hetznerZA/jsender.
 
 ## License
 
