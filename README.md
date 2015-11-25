@@ -67,6 +67,18 @@ Or install it yourself as:
 
   iut.action(0)
   => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["fail"]}} 
+
+  iut.has_data?(result, 'a')
+  => true 
+  iut.has_data?(result, 'z')
+  => false 
+
+  result = iut.action(6)
+  iut.notifications_include?(result, "ail")
+  => true 
+  iut.notifications_include?(result, "not")
+  => false 
+
 ```
 
 ## Development
