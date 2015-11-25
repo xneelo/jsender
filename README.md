@@ -34,6 +34,8 @@ Or install it yourself as:
       return fail('code 5 selected') if code == 5
       return fail_data({ 'a' => 'A', 'b' => 'B' }) if code == 6
       return fail('some errors for you', ['d', 'a', 't', 'a']) if code == 7
+      return error if code == 8
+      return error('something went wrong') if code == 9
       fail
     end
   end
@@ -64,14 +66,19 @@ Or install it yourself as:
 
   iut.action(7)
   => {"status"=>"fail", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["some errors for you"]}} 
-
-  iut.action(0)
-  => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["fail"]}} 
-
   iut.has_data?(result, 'a')
   => true 
   iut.has_data?(result, 'z')
   => false 
+
+  iut.action(0)
+  => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["fail"]}} 
+
+  iut.action(8)
+  => {"status"=>"error", "message"=>nil} 
+
+  iut.action(9)
+   => {"status"=>"error", "message"=>"something went wrong"} 
 
   result = iut.action(6)
   iut.notifications_include?(result, "ail")

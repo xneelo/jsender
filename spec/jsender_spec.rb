@@ -60,6 +60,16 @@ describe Jsender do
     end
   end
 
+  context "when asked to report an error" do
+    it "should set the jsend status to 'error'" do
+      expect(@iut.error).to eq({'status' => 'error', 'message' => nil})
+    end
+
+    it "should set the jsend messahe field to the message provided" do
+      expect(@iut.error("message")).to eq({'status' => 'error', 'message' => 'message'})
+    end
+  end
+
   context "when asked to report failure" do
     it "should set the jsend status to 'fail'" do
       expect(@iut.fail("message", "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['message'] }})

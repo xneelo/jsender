@@ -2,9 +2,14 @@ require "jsender/version"
 
 module Jsender
   def report(status, message, result = nil)
+    return { 'status' => 'error', 'message' => message } if status == 'error'
     data = compile_data(result)
     data['notifications'] = message.is_a?(Array) ? message : [ message ] 
     { 'status' => status, 'data' => data }
+  end
+
+  def error(message = nil)
+    report('error', message)
   end
 
   def fail(message = nil, data = nil)
