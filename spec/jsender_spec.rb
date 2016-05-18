@@ -65,9 +65,22 @@ describe Jsender do
       expect(@iut.error).to eq({'status' => 'error', 'message' => nil})
     end
 
-    it "should set the jsend messahe field to the message provided" do
+    it "should set the jsend message field to the message provided" do
       expect(@iut.error("message")).to eq({'status' => 'error', 'message' => 'message'})
     end
+
+    it "should be able to set the jsend optional code field" do
+      expect(@iut.error("message", nil, 401)).to eq({'status' => 'error', 'message' => 'message', 'code' => 401})
+    end
+
+    it "should be able to set the jsend optional result field" do
+      expect(@iut.error("message", "result")).to eq({'status' => 'error', 'message' => 'message', 'data' => {'result' => 'result'}})
+    end
+
+    it "should be able to set the jsend optional code and optional result field" do
+      expect(@iut.error("message", "result", 401)).to eq({'status' => 'error', 'message' => 'message', 'data' => { 'result' => 'result'}, 'code' => 401})
+    end
+
   end
 
   context "when asked to report failure" do
