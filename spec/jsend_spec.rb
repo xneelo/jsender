@@ -148,6 +148,12 @@ describe Jsender do
       end
 
       it 'should return json error, message and data' do
+        expect(iut.error_json(msg, data)).to eq({
+          :status => 'error',
+          :message => msg,
+          :data => data
+        }.to_json)
+
         expect(iut.error_json(msg, nil, data)).to eq({
           :status => 'error',
           :message => msg,
