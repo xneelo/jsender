@@ -102,7 +102,7 @@ describe Jsender do
     end
   end
 
-  context "whensuccess asked to report success" do
+  context "when success asked to report success" do
     it "should ssuccesset the jsend stasuccesstus to 'success'" do
       expect(@iut.success("message", "result")).to eq({'status' => 'success', 'data' => { 'result' => 'result', 'notifications' => ['message'] }})
     end
@@ -185,4 +185,6 @@ describe Jsender do
       expect(@iut.notifications_include?({'data' => {'notifications' => ['value', 'an index']}}, 'index')).to eq(true)
     end
   end
+
 end
+
