@@ -32,6 +32,7 @@ Or install it yourself as:
   iut = CodeClass.new
 ```
 
+### Returns Ruby Hash
 
 ```
   iut.success
@@ -67,6 +68,38 @@ Or install it yourself as:
   iut.fail('a failure occurred', ['d', 'a', 't', 'a'])
   => {"status"=>"fail", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["a failure occurred"]}} 
 ```
+
+### Returns JSON
+
+```
+  iut.success_json
+  => "{\"status\":\"success\", \"data\": null}"
+
+  iut.succes_json({:key1 => 'value1'})
+  => "{\"status\":\"success\",\"data\":{\"key1\":\"value1\"}}"
+
+  iut.fail_json
+  => "{\"status\": \"fail\", \"data\": null}"
+
+  iut.fail_json({:key1 => "value1"})
+  => "{\"status\":\"fail\",\"data\":{\"key1\":\"value1\"}}"
+
+  iut.error_json
+  => ArgumentError, 'Missing required argument message'
+
+  iut.error_json('My little error')
+  => "{\"status\":\"error\", \"message\":\"My little error\"}"
+
+  iut.error_json('Another little error', 401)
+  => "{\"status\":\"error\",\"message\":\"Another little error\",\"code\":401}"
+
+  iut.error_json('Another little error', 401, {:key1 => 'cause of another little error'})
+  => "{\"status\":\"error\",\"message\":\"Another little error\",\"code\":401,\"data\":{\"key1\":\"cause of another little error\"}}"
+
+  iut.error_json('Another little error', {:key1 => 'cause of another little error'})
+  => "{\"status\":\"error\",\"message\":\"Another little error\",\"data\":{\"key1\":\"cause of another little error\"}}"
+```
+
 
 ## Development
 
