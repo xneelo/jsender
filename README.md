@@ -75,7 +75,7 @@ Or install it yourself as:
   iut.success_json
   => "{\"status\":\"success\", \"data\": null}"
 
-  iut.succes_json({:key1 => 'value1'})
+  iut.success_json({:key1 => 'value1'})
   => "{\"status\":\"success\",\"data\":{\"key1\":\"value1\"}}"
 
   iut.fail_json
