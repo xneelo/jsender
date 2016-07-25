@@ -1,5 +1,7 @@
 # Jsender
 
+[![Gem Version](https://badge.fury.io/rb/jsender.png)](https://badge.fury.io/rb/jsender)
+
 JSender facilitates a simple jsend implementation for ruby. You can report success, error, fail, success with data, fail with data. The jsend response contains 'status' and 'data'. 'data' contains what-ever you put in it, as well as a 'notifications' array. Helpers are provided to check whether a notification is present and whether a specific data key is present. On error the response contains 'message'.
 
 ## Installation
