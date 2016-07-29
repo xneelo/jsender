@@ -82,16 +82,19 @@ module Jsender
   private
 
   def invalid_integer?(value)
-    (not code.nil?) and (not code.is_a? Integer)
+    (not value.nil?) and (not value.is_a? Integer)
   end
 
   def invalid_hash?(data)
-    not (data.is_a? Hash and not data.nil?)
+    if not data.nil?
+      return true if not data.is_a? Hash
+    end
+    false
   end
 
   def generate_error_json(jsend, code, data)
-    jsend['code'] = code if not code.nil?
-    jsend['data'] = data if not data.nil?
+    jsend['code'] = code unless code.nil?
+    jsend['data'] = data unless data.nil?
     return JSON.generate(jsend)
   end
 
