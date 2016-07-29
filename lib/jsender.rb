@@ -39,7 +39,7 @@ module Jsender
   end
 
   def notifications_include?(result, pattern)
-    return false if not has_data?(result, 'notifications')
+    return false unless has_data?(result, 'notifications')
     result['data']['notifications'].to_s.include?(pattern)
   end
 
@@ -47,7 +47,7 @@ module Jsender
   # @param data optional [Hash]
   # @return [String] jsend json
   def success_json(data = nil)
-    raise ArgumentError, 'Optional data argument should be of type Hash' if not data.is_a? Hash and not data.nil?
+    raise ArgumentError, 'Optional data argument should be of type Hash' if invalid_hash?(data)
     return JSON.generate({
       :status => 'success',
       :data => data
@@ -58,7 +58,7 @@ module Jsender
   # @param data optional [Hash]
   # @return [String] jsend json
   def fail_json(data = nil)
-    raise ArgumentError, 'Optional data argument should be of type Hash' if not data.is_a? Hash and not data.nil?
+    raise ArgumentError, 'Optional data argument should be of type Hash' if invalid_hash?(data)
     return JSON.generate({
       :status => 'fail',
       :data => data
@@ -71,24 +71,58 @@ module Jsender
   # @param data optional [Hash]
   # @return [String] jsend json
   def error_json(msg, code = nil, data = nil)
-    raise ArgumentError, 'Missing required message of type String' if msg.empty? or not msg.is_a? String
-    code, data  = nil, code if not code.is_a? Integer and code.is_a? Hash and data.nil?
-    raise ArgumentError, 'Optional data argument should be of type Hash' if not data.nil? and not data.is_a? Hash
-    raise ArgumentError, 'Optional code argument should be of type Integer' if not code.nil? and not code.is_a? Integer
+    code, data = validate_and_sanitize(msg, code, data)
     jsend = {
       :status => 'error',
       :message => msg
     }
+    generate_error_json(jsend, code, data)
+  end
+
+  private
+
+  def invalid_integer?(value)
+    (not code.nil?) and (not code.is_a? Integer)
+  end
+
+  def invalid_hash?(data)
+    not (data.is_a? Hash and not data.nil?)
+  end
+
+  def generate_error_json(jsend, code, data)
     jsend['code'] = code if not code.nil?
     jsend['data'] = data if not data.nil?
     return JSON.generate(jsend)
   end
 
-  private
+  def validate_and_sanitize(msg, code, data)
+    validate_message(msg)
+    code, data = set_code_and_data(code, data)    
+    validate_data(data)
+    validate_code(code)
+    return code, data
+  end
+
+  def set_code_and_data(code, data)
+    code, data = nil, code if not code.is_a? Integer and code.is_a? Hash and data.nil?
+    return code, data
+  end
+
+  def validate_message(msg)
+    raise ArgumentError, 'Missing required message of type String' if msg.empty? or not msg.is_a? String
+  end
+
+  def validate_data(data)
+    raise ArgumentError, 'Optional data argument should be of type Hash' if invalid_hash?(data)
+  end
+
+  def validate_code(code)
+    raise ArgumentError, 'Optional code argument should be of type Integer' if invalid_integer?(code)
+  end
 
   def compile_data(result)
     data ||= {}
-    result = { 'result' => result} if not result.is_a? Hash
+    result = { 'result' => result} unless result.is_a? Hash
     result.each do |key, value|
       data[key] = value
     end
