@@ -7,6 +7,8 @@
 
 JSender facilitates a simple jsend implementation for ruby. You can report success, error, fail, success with data, fail with data. The jsend response contains 'status' and 'data'. 'data' contains what-ever you put in it, as well as a 'notifications' array. Helpers are provided to check whether a notification is present and whether a specific data key is present. On error the response contains 'message'.
 
+For more info about JSend refer to https://labs.omniti.com/labs/jsend
+
 ## Installation
 
 Add this line to your application's Gemfile:
