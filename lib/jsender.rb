@@ -5,7 +5,7 @@ module Jsender
   def report(status, message, result = nil)
     return { 'status' => 'error', 'message' => message } if status == 'error'
     data = compile_data(result)
-    data['notifications'] = message.is_a?(Array) ? message : [ message ] 
+    data['notifications'] = message.is_a?(Array) ? message : [ message ]
     { 'status' => status, 'data' => data }
   end
 
@@ -13,13 +13,13 @@ module Jsender
     report('error', message)
   end
 
-  def fail(message = nil, data = nil)
+  def failure(message = nil, data = nil)
     message ||= 'fail'
     report('fail', message, data)
   end
 
   def fail_data(data = nil)
-    fail(nil, data)
+    failure(nil, data)
   end
 
   def success_data(data = nil)
@@ -100,7 +100,7 @@ module Jsender
 
   def validate_and_sanitize(msg, code, data)
     validate_message(msg)
-    code, data = set_code_and_data(code, data)    
+    code, data = set_code_and_data(code, data)
     validate_data(data)
     validate_code(code)
     return code, data

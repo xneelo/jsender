@@ -72,23 +72,23 @@ describe Jsender do
 
   context "when asked to report failure" do
     it "should set the jsend status to 'fail'" do
-      expect(@iut.fail("message", "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['message'] }})
+      expect(@iut.failure("message", "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['message'] }})
     end
 
     it "should include 'fail' in the jsend data notifications field if the message is nil" do
-      expect(@iut.fail(nil, "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['fail'] }})
+      expect(@iut.failure(nil, "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['fail'] }})
     end
 
     it "should include the message in the jsend data notifications field" do
-      expect(@iut.fail("message", "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['message'] }})
+      expect(@iut.failure("message", "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['message'] }})
     end
 
     it "should include a result field set to nil and no other data keys, other than notifications if no data was provided" do
-      expect(@iut.fail("message")).to eq({'status' => 'fail', 'data' => { 'result' => nil, 'notifications' => ['message'] }})     
+      expect(@iut.failure("message")).to eq({'status' => 'fail', 'data' => { 'result' => nil, 'notifications' => ['message'] }})
     end
 
     it "should include data provided in the jsend data field" do
-      expect(@iut.fail("message", "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['message'] }})
+      expect(@iut.failure("message", "result")).to eq({'status' => 'fail', 'data' => { 'result' => 'result', 'notifications' => ['message'] }})
     end
   end
 
@@ -116,7 +116,7 @@ describe Jsender do
     end
 
     it "should include a result field set to nil and no other data keys, other than notifications if no data was provided" do
-      expect(@iut.success("message")).to eq({'status' => 'success', 'data' => { 'result' => nil, 'notifications' => ['message'] }})     
+      expect(@iut.success("message")).to eq({'status' => 'success', 'data' => { 'result' => nil, 'notifications' => ['message'] }})
     end
 
     it "should include data provided in the jsend data field" do
@@ -187,4 +187,3 @@ describe Jsender do
   end
 
 end
-
