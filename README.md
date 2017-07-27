@@ -26,84 +26,71 @@ Or install it yourself as:
     $ gem install jsender
 
 ## Usage
-
-```
-  require 'jsender'
-
-  class CodeClass
-    include Jsender
-  end
-```
-
-```
-  iut = CodeClass.new
-```
-
 ### Returns Ruby Hash
 
 ```
-  iut.success
+  Jsender.success
   => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["success"]}}
 
-  iut.success('happy day')
+  Jsender.success('happy day')
   => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["happy day"]}}
 
-  result = iut.success_data({ 'a' => 'A', 'b' => 'B' })
+  result = Jsender.success_data({ 'a' => 'A', 'b' => 'B' })
   => {"status"=>"success", "data"=>{"a"=>"A", "b"=>"B", "notifications"=>["success"]}}
-  iut.has_data?(result, 'b')
+  Jsender.has_data?(result, 'b')
   => true
 
-  result = iut.success('some data for you', ['d', 'a', 't', 'a'])
+  result = Jsender.success('some data for you', ['d', 'a', 't', 'a'])
   => {"status"=>"success", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["some data for you"]}}
-  iut.has_data?(result, 'result')
+  Jsender.has_data?(result, 'result')
   => true
-  iut.notifications_include?(result, 'ata fo')
+  Jsender.notifications_include?(result, 'ata fo')
   => true
 
-  iut.error
+  Jsender.error
   => {"status"=>"error", "message"=>nil}
 
-  iut.error('something went wrong')
+  Jsender.error('something went wrong')
   => {"status"=>"error", "message"=>"something went wrong"}
 
-  iut.failure
+  Jsender.failure
   => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["fail"]}}
 
-  iut.failure('a failure occurred')
+  Jsender.failure('a failure occurred')
   => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["a failure occurred"]}}
 
-  iut.failure('a failure occurred', ['d', 'a', 't', 'a'])
+  Jsender.failure('a failure occurred', ['d', 'a', 't', 'a'])
   => {"status"=>"fail", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["a failure occurred"]}}
 ```
 
 ### Returns JSON
 
 ```
-  iut.success_json
+  Jsender.success_json
   => "{\"status\":\"success\", \"data\": null}"
 
-  iut.success_json({:key1 => 'value1'})
+  Jsender.success_json({:key1 => 'value1'})
   => "{\"status\":\"success\",\"data\":{\"key1\":\"value1\"}}"
 
-  iut.fail_json
+  Jsender.fail_json
   => "{\"status\": \"fail\", \"data\": null}"
 
-  iut.fail_json({:key1 => "value1"})
+  Jsender.fail_json({:key1 => "value1"})
   => "{\"status\":\"fail\",\"data\":{\"key1\":\"value1\"}}"
 
-  iut.error_json
+  Jsender.error_json
   => ArgumentError, 'Missing required argument message'
 
-  iut.error_json('My little error')
+  Jsender.error_json('My little error')
   => "{\"status\":\"error\", \"message\":\"My little error\"}"
 
-  iut.error_json('Another little error', 401)
+  Jsender.error_json('Another little error', 401)
   => "{\"status\":\"error\",\"message\":\"Another little error\",\"code\":401}"
 
-  iut.error_json('Another little error', 401, {:key1 => 'cause of another little error'})
+  Jsender.error_json('Another little error', 401, {:key1 => 'cause of another little error'})
   => "{\"status\":\"error\",\"message\":\"Another little error\",\"code\":401,\"data\":{\"key1\":\"cause of another little error\"}}"
 
-  iut.error_json('Another little error', {:key1 => 'cause of another little error'})
+  Jsender.error_json('Another little error', {:key1 => 'cause of another little error'})
   => "{\"status\":\"error\",\"message\":\"Another little error\",\"data\":{\"key1\":\"cause of another little error\"}}"
 ```
 
