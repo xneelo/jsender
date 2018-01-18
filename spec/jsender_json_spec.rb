@@ -2,167 +2,86 @@ require 'spec_helper'
 require 'jsender'
 require 'json'
 
-describe Jsender do
+describe Jsender::Json do
   subject { described_class }
-  before :all do
-    @data = {
-      :key1 => 'value1',
-      :key2 => 'value2'
+
+  let(:data) {
+    {
+      'key' => 'value'
     }
-  end
+  }
 
-  describe '#success_json' do
+  let(:message) {
+    'some message'
+  }
 
-    context 'no arguments' do
-      it 'should return jsend data as null' do
-        actual_result = subject.success_json()
-        expected_result = JSON.generate({
-          :status => 'success',
-          :data => nil
-        })
-        expect(actual_result).to eq(expected_result)
+  describe '#error' do
+    context 'with no arguments' do
+      it 'should return a json encoded hash with default error message' do
+        expected_result = {
+          'status' => 'error',
+          'message'   => 'An error has occurred'
+        }.to_json
+        expect(subject.error()).to eq(expected_result)
       end
     end
 
-    context 'invalid arguments' do
-      it 'should raise invalid argument exception' do
-        expect {
-          subject.success_json('string')
-        }.to raise_error ArgumentError
-        expect {
-          subject.success_json(123)
-        }.to raise_error ArgumentError
-      end
-    end
-
-    context 'valid arguments' do
-      it 'should return jsend success and data ' do
-        actual_result = subject.success_json(@data)
-        expected_result = JSON.generate({
-          :status => 'success',
-          :data => @data
-        })
-        expect(actual_result).to eq(expected_result)
+    context 'with message argument' do
+      it 'should return a json encoded hash with provided message' do
+        expected_result = {
+          'status' => 'error',
+          'message'   => message
+        }.to_json
+        expect(subject.error(message: message)).to eq(expected_result)
       end
     end
   end
 
-  describe '#fail_json' do
-    context 'no arguments' do
-      it 'should return jsend data as null' do
-        actual_result = subject.fail_json()
-        expected_result = JSON.generate({
-          :status => 'fail',
-          :data => nil
-        })
-        expect(actual_result).to eq(expected_result)
+  describe '#failure' do
+    context 'with no arguments' do
+      it 'should return a json encoded hash with default failure message' do
+        expected_result = {
+          'status' => 'fail',
+          'data'   => {
+            'message' => 'A failure has occurred'
+          }
+        }.to_json
+        expect(subject.failure()).to eq(expected_result)
       end
     end
 
-    context 'invalid arguments' do
-      it 'should raise invalid argument exception' do
-        expect {
-          subject.fail_json('string')
-        }.to raise_error ArgumentError
-        expect {
-          subject.success_json(123)
-        }.to raise_error ArgumentError
-      end
-    end
-
-    context 'valid arguments' do
-      it 'should return jsend success and data ' do
-        actual_result = subject.fail_json(@data)
-        expected_result = JSON.generate({
-          :status => 'fail',
-          :data => @data
-        })
-        expect(actual_result).to eq(expected_result)
+    context 'with message argument' do
+      it 'should return a json encoded hash with provided message' do
+        expected_result = {
+          'status' => 'fail',
+          'data'   => {
+            'message' => message
+          }
+        }.to_json
+        expect(subject.failure(message: message)).to eq(expected_result)
       end
     end
   end
 
-  describe '#error_json' do
-
-    before :all do
-      @msg = 'My descriptive error message'
-    end
-
-    context 'no arguments' do
-      it 'should raise invalid arguments exception' do
-        expect {
-          subject.error_json()
-        }.to raise_error ArgumentError
+  describe '#success' do
+    context 'with no arguments' do
+      it 'should return a json encoded hash with nil data' do
+        expected_result = {
+          'status' => 'success',
+          'data'   => nil
+        }.to_json
+        expect(subject.success()).to eq(expected_result)
       end
     end
 
-    context 'invalid arguments' do
-      it 'code should only accept integers' do
-        expect {
-          subject.error_json(@msg, @data).to raise_error ArgumentError
-        }
-        expect {
-          subject.error_json(@msg, 'string').to raise_error ArgumentError
-        }
-      end
-      it 'data should only accept a hash' do
-        expect {
-          subject.error_json(@msg, 400, [1, 2, 3]).to raise_error ArgumentError
-        }
-        expect {
-          subject.error_json(@msg, 400, 0).to raise_error ArgumentError
-        }
+    context 'with data argument' do
+      it 'should return a json encoded hash with provided data' do
+        expected_result = {
+          'status' => 'success',
+          'data'   => data
+        }.to_json
+        expect(subject.success(data: data)).to eq(expected_result)
       end
     end
-
-    context 'valid arguments' do
-
-      it 'should return jsend error and message' do
-        expect(subject.error_json(@msg)).to eq(JSON.generate({
-          :status => 'error',
-          :message => @msg
-        }))
-      end
-
-      it 'should return json error, message and code' do
-        expect(subject.error_json(@msg, 200)).to eq({
-          :status => 'error',
-          :message => @msg,
-          :code => 200
-        }.to_json)
-
-        expect(subject.error_json(@msg, 0)).to eq({
-          :status => 'error',
-          :message => @msg,
-          :code => 0
-        }.to_json)
-      end
-
-      it 'should return json error, message, code and data' do
-        expect(subject.error_json(@msg, 200, @data)).to eq({
-          :status => 'error',
-          :message => @msg,
-          :code => 200,
-          :data => @data
-        }.to_json)
-      end
-
-      it 'should return json error, message and data' do
-        expect(subject.error_json(@msg, @data)).to eq({
-          :status => 'error',
-          :message => @msg,
-          :data => @data
-        }.to_json)
-
-        expect(subject.error_json(@msg, nil, @data)).to eq({
-          :status => 'error',
-          :message => @msg,
-          :data => @data
-        }.to_json)
-      end
-
-    end
-
   end
-
 end

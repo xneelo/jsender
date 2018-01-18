@@ -1,3 +1,5 @@
+require 'json'
+
 module Jsender
   module Json
     extend self
