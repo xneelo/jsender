@@ -6,11 +6,11 @@ require 'jsender/version'
 Gem::Specification.new do |spec|
   spec.name          = "jsender"
   spec.version       = Jsender::VERSION
-  spec.authors       = ["Ernst van Graan", "Charles Mulder"]
-  spec.email         = ["ernst.van.graan@hetzner.co.za", "charles.mulder@hetzner.co.za"]
+  spec.authors       = ["Hetzner Seals Team"]
+  spec.email         = ["seals@hetzner.co.za"]
 
   spec.summary       = %q{JSender facilitates a simple jsend implementation for ruby}
-  spec.description   = %q{JSender facilitates a simple jsend implementation for ruby}
+  spec.description   = %q{JSender facilitates a simple jsend implementation for ruby with json and rack helpers}
   spec.homepage      = "https://github.com/hetznerZA/jsender"
   spec.license       = "MIT"
 

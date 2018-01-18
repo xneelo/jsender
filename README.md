@@ -19,81 +19,71 @@ gem 'jsender'
 
 And then execute:
 
-    $ bundle
+```bash
+bundle
+```
 
 Or install it yourself as:
 
-    $ gem install jsender
+```bash
+gem install jsender
+```
 
 ## Usage
-### Returns Ruby Hash
-
-```
-  Jsender.success
-  => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["success"]}}
-
-  Jsender.success('happy day')
-  => {"status"=>"success", "data"=>{"result"=>nil, "notifications"=>["happy day"]}}
-
-  result = Jsender.success_data({ 'a' => 'A', 'b' => 'B' })
-  => {"status"=>"success", "data"=>{"a"=>"A", "b"=>"B", "notifications"=>["success"]}}
-  Jsender.has_data?(result, 'b')
-  => true
-
-  result = Jsender.success('some data for you', ['d', 'a', 't', 'a'])
-  => {"status"=>"success", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["some data for you"]}}
-  Jsender.has_data?(result, 'result')
-  => true
-  Jsender.notifications_include?(result, 'ata fo')
-  => true
-
-  Jsender.error
-  => {"status"=>"error", "message"=>nil}
-
-  Jsender.error('something went wrong')
-  => {"status"=>"error", "message"=>"something went wrong"}
-
-  Jsender.failure
-  => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["fail"]}}
-
-  Jsender.failure('a failure occurred')
-  => {"status"=>"fail", "data"=>{"result"=>nil, "notifications"=>["a failure occurred"]}}
-
-  Jsender.failure('a failure occurred', ['d', 'a', 't', 'a'])
-  => {"status"=>"fail", "data"=>{"result"=>["d", "a", "t", "a"], "notifications"=>["a failure occurred"]}}
-```
-
 ### Returns JSON
 
-```
-  Jsender.success_json
-  => "{\"status\":\"success\", \"data\": null}"
+Basic usage without any parameters yielding default json encoded jsend format:
 
-  Jsender.success_json({:key1 => 'value1'})
-  => "{\"status\":\"success\",\"data\":{\"key1\":\"value1\"}}"
+Jsender::Json.success
+ => "{\"status\":\"success\",\"data\":null}"
 
-  Jsender.fail_json
-  => "{\"status\": \"fail\", \"data\": null}"
+Jsender::Json.failure
+ => "{\"status\":\"fail\",\"data\":{\"message\":\"A failure has occurred\"}}"
 
-  Jsender.fail_json({:key1 => "value1"})
-  => "{\"status\":\"fail\",\"data\":{\"key1\":\"value1\"}}"
+Jsender::Json.error
+ => "{\"status\":\"error\",\"message\":\"An error has occurred\"}"
 
-  Jsender.error_json
-  => ArgumentError, 'Missing required argument message'
+Or with parameters yielding the correct json encoded jsend format:
 
-  Jsender.error_json('My little error')
-  => "{\"status\":\"error\", \"message\":\"My little error\"}"
+Jsender::Json.success(data: {'key' => 'value'})
+ => "{\"status\":\"success\",\"data\":{\"key\":\"value\"}}"
 
-  Jsender.error_json('Another little error', 401)
-  => "{\"status\":\"error\",\"message\":\"Another little error\",\"code\":401}"
+Jsender::Json.failure(message: 'custom message')
+ => "{\"status\":\"fail\",\"data\":{\"message\":\"custom message\"}}"
 
-  Jsender.error_json('Another little error', 401, {:key1 => 'cause of another little error'})
-  => "{\"status\":\"error\",\"message\":\"Another little error\",\"code\":401,\"data\":{\"key1\":\"cause of another little error\"}}"
+Jsender::Json.error(message: 'custom message')
+ => "{\"status\":\"error\",\"message\":\"custom message\"}"
 
-  Jsender.error_json('Another little error', {:key1 => 'cause of another little error'})
-  => "{\"status\":\"error\",\"message\":\"Another little error\",\"data\":{\"key1\":\"cause of another little error\"}}"
-```
+### Returns Rack Response Tuple
 
+Basic usage without any parameters yielding default json encoded jsend format in a Rack tuple:
+
+Jsender::Rack.success
+ => [200, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, "{\"status\":\"success\",\"data\":null}"]
+
+Jsender::Rack.failure
+ => [400, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, "{\"status\":\"fail\",\"data\":{\"message\":\"A failure has occurred\"}}"]
+
+Jsender::Rack.error
+=> [500, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, "{\"status\":\"error\",\"message\":\"An error has occurred\"}"]
+
+Or with parameters yielding the correct json encoded jsend format in a Rack tuple for use in controllers (including Sinatra):
+
+Jsender::Rack.success(data: {'key' => 'value'}, code: 201, flow_id: '123')
+ => [201, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>"123"}, "{\"status\":\"success\",\"data\":{\"key\":\"value\"}}"]
+
+ Jsender::Rack.failure(message: 'some custom failure message', code: 201, flow_id: '123')
+ => [201, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>"123"}, "{\"status\":\"fail\",\"data\":{\"message\":\"some custom failure message\"}}"]
+
+ Jsender::Rack.error(message: 'some custom failure message', code: 201, flow_id: '123')
+ => [201, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>"123"}, "{\"status\":\"error\",\"message\":\"some custom failure message\"}"]
+
+### Returns Rack Response Tuple for Middlewares
+
+Rack middlware responses require that the body of the response tuple is in an array. Enable this using the body_as_array parameter (false by default):
+
+Jsender::Rack.error(body_as_array: true)
+ => [500, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, ["{\"status\":\"error\",\"message\":\"An error has occurred\"}"]]
 
 ## Development
 
