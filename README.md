@@ -34,6 +34,7 @@ gem install jsender
 
 Basic usage without any parameters yielding default json encoded jsend format:
 
+```ruby
 Jsender::Json.success
  => "{\"status\":\"success\",\"data\":null}"
 
@@ -42,9 +43,11 @@ Jsender::Json.failure
 
 Jsender::Json.error
  => "{\"status\":\"error\",\"message\":\"An error has occurred\"}"
+```
 
 Or with parameters yielding the correct json encoded jsend format:
 
+```ruby
 Jsender::Json.success(data: {'key' => 'value'})
  => "{\"status\":\"success\",\"data\":{\"key\":\"value\"}}"
 
@@ -53,11 +56,13 @@ Jsender::Json.failure(message: 'custom message')
 
 Jsender::Json.error(message: 'custom message')
  => "{\"status\":\"error\",\"message\":\"custom message\"}"
+```
 
 ### Returns Rack Response Tuple
 
 Basic usage without any parameters yielding default json encoded jsend format in a Rack tuple:
 
+```ruby
 Jsender::Rack.success
  => [200, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, "{\"status\":\"success\",\"data\":null}"]
 
@@ -66,9 +71,11 @@ Jsender::Rack.failure
 
 Jsender::Rack.error
 => [500, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, "{\"status\":\"error\",\"message\":\"An error has occurred\"}"]
+```
 
 Or with parameters yielding the correct json encoded jsend format in a Rack tuple for use in controllers (including Sinatra):
 
+```ruby
 Jsender::Rack.success(data: {'key' => 'value'}, code: 201, flow_id: '123')
  => [201, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>"123"}, "{\"status\":\"success\",\"data\":{\"key\":\"value\"}}"]
 
@@ -77,13 +84,16 @@ Jsender::Rack.success(data: {'key' => 'value'}, code: 201, flow_id: '123')
 
  Jsender::Rack.error(message: 'some custom failure message', code: 201, flow_id: '123')
  => [201, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>"123"}, "{\"status\":\"error\",\"message\":\"some custom failure message\"}"]
+```
 
 ### Returns Rack Response Tuple for Middlewares
 
 Rack middlware responses require that the body of the response tuple is in an array. Enable this using the body_as_array parameter (false by default):
 
+```ruby
 Jsender::Rack.error(body_as_array: true)
  => [500, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, ["{\"status\":\"error\",\"message\":\"An error has occurred\"}"]]
+```
 
 ## Development
 
