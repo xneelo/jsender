@@ -28,14 +28,6 @@ module Jsender
 
     private
 
-    def rack_tuple(code:, flow_id:, body:)
-      [
-        code,
-        headers(flow_id: flow_id),
-        body
-      ]
-    end
-
     def body(data:, body_as_array: false)
       return [data] if body_as_array
       data
