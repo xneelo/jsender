@@ -66,9 +66,7 @@ describe Jsender::Json do
       it 'should return a json encoded hash with provided data' do
         expected_result = {
           'status' => 'fail',
-          'data'   => {
-            'message' => message
-          }.merge(data)
+          'data'   => data
         }.to_json
         expect(subject.failure(message: message, data: data)).to eq(expected_result)
       end

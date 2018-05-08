@@ -169,9 +169,7 @@ describe Jsender::Rack do
           },
           {
             'status' => 'fail',
-            'data' => {
-              'message' => message,
-            }.merge(data)
+            'data' => data
           }.to_json
         ]
         expect(subject.failure(message: message, data: data)).to eq(expected_result)
