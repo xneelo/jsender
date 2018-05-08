@@ -158,6 +158,24 @@ describe Jsender::Rack do
       end
     end
 
+    context 'with data argument' do
+      it 'should return rack compatible success tuple including the data' do
+        expected_result =
+        [
+          400,
+          {
+            "Content-Type"      => "application/json",
+            "X-Flow-Identifier" => nil
+          },
+          {
+            'status' => 'fail',
+            'data' => data
+          }.to_json
+        ]
+        expect(subject.failure(message: message, data: data)).to eq(expected_result)
+      end
+    end
+
     context 'with flow_id argument' do
       it 'should return rack compatible success tuple including the flow_id' do
         expected_result =

@@ -61,6 +61,16 @@ describe Jsender::Json do
         expect(subject.failure(message: message)).to eq(expected_result)
       end
     end
+
+    context 'with data argument' do
+      it 'should return a json encoded hash with provided data' do
+        expected_result = {
+          'status' => 'fail',
+          'data'   => data
+        }.to_json
+        expect(subject.failure(message: message, data: data)).to eq(expected_result)
+      end
+    end
   end
 
   describe '#success' do
