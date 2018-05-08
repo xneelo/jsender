@@ -10,11 +10,11 @@ module Jsender
       ]
     end
 
-    def failure(code: 400, flow_id: nil, message: "A failure has occurred", body_as_array: false)
+    def failure(code: 400, flow_id: nil, message: "A failure has occurred", data: {}, body_as_array: false)
       [
         code,
         headers(flow_id: flow_id),
-        body(data: Jsender::Json.failure(message: message), body_as_array: body_as_array)
+        body(data: Jsender::Json.failure(message: message, data: data), body_as_array: body_as_array)
       ]
     end
 

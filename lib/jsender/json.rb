@@ -11,12 +11,12 @@ module Jsender
       }.to_json
     end
 
-    def failure(message: "A failure has occurred")
+    def failure(message: "A failure has occurred", data: {})
       {
         'status' => 'fail',
         'data' => {
          'message' => message
-        }
+        }.merge(data)
       }.to_json
     end
 
