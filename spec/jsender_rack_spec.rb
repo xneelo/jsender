@@ -30,8 +30,7 @@ describe Jsender::Rack do
         [
           200,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'success',
@@ -48,8 +47,7 @@ describe Jsender::Rack do
         [
           200,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'success',
@@ -84,8 +82,7 @@ describe Jsender::Rack do
         [
           code,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'success',
@@ -102,8 +99,7 @@ describe Jsender::Rack do
         [
           200,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           [
             {
@@ -124,8 +120,7 @@ describe Jsender::Rack do
         [
           400,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'fail',
@@ -144,8 +139,7 @@ describe Jsender::Rack do
         [
           400,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'fail',
@@ -164,8 +158,7 @@ describe Jsender::Rack do
         [
           400,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'fail',
@@ -202,8 +195,7 @@ describe Jsender::Rack do
         [
           code,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'fail',
@@ -222,8 +214,7 @@ describe Jsender::Rack do
         [
           400,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           [
             {
@@ -246,8 +237,7 @@ describe Jsender::Rack do
         [
           500,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'error',
@@ -264,8 +254,7 @@ describe Jsender::Rack do
         [
           500,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'error',
@@ -300,8 +289,7 @@ describe Jsender::Rack do
         [
           code,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           {
             'status' => 'error',
@@ -318,8 +306,7 @@ describe Jsender::Rack do
         [
           500,
           {
-            "Content-Type"      => "application/json",
-            "X-Flow-Identifier" => nil
+            "Content-Type" => "application/json"
           },
           [
             {

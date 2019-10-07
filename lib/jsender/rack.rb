@@ -34,10 +34,13 @@ module Jsender
     end
 
     def headers(flow_id:)
-      {
-        'Content-Type' => 'application/json',
-        'X-Flow-Identifier' => flow_id
+      headers = {
+        'Content-Type' => 'application/json'
       }
+
+      headers.merge!('X-Flow-Identifier' => flow_id) if flow_id
+
+      headers
     end
   end
 

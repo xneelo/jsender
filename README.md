@@ -64,13 +64,13 @@ Basic usage without any parameters yielding default json encoded jsend format in
 
 ```ruby
 Jsender::Rack.success
- => [200, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, "{\"status\":\"success\",\"data\":null}"]
+ => [200, {"Content-Type"=>"application/json"}, "{\"status\":\"success\",\"data\":null}"]
 
 Jsender::Rack.failure
- => [400, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, "{\"status\":\"fail\",\"data\":{\"message\":\"A failure has occurred\"}}"]
+ => [400, {"Content-Type"=>"application/json"}, "{\"status\":\"fail\",\"data\":{\"message\":\"A failure has occurred\"}}"]
 
 Jsender::Rack.error
-=> [500, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, "{\"status\":\"error\",\"message\":\"An error has occurred\"}"]
+=> [500, {"Content-Type"=>"application/json"}, "{\"status\":\"error\",\"message\":\"An error has occurred\"}"]
 ```
 
 Or with parameters yielding the correct json encoded jsend format in a Rack tuple for use in controllers (including Sinatra):
@@ -79,10 +79,10 @@ Or with parameters yielding the correct json encoded jsend format in a Rack tupl
 Jsender::Rack.success(data: {'key' => 'value'}, code: 201, flow_id: '123')
  => [201, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>"123"}, "{\"status\":\"success\",\"data\":{\"key\":\"value\"}}"]
 
- Jsender::Rack.failure(message: 'some custom failure message', code: 201, flow_id: '123')
+Jsender::Rack.failure(message: 'some custom failure message', code: 201, flow_id: '123')
  => [201, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>"123"}, "{\"status\":\"fail\",\"data\":{\"message\":\"some custom failure message\"}}"]
 
- Jsender::Rack.error(message: 'some custom failure message', code: 201, flow_id: '123')
+Jsender::Rack.error(message: 'some custom failure message', code: 201, flow_id: '123')
  => [201, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>"123"}, "{\"status\":\"error\",\"message\":\"some custom failure message\"}"]
 ```
 
@@ -92,7 +92,7 @@ Rack middlware responses require that the body of the response tuple is in an ar
 
 ```ruby
 Jsender::Rack.error(body_as_array: true)
- => [500, {"Content-Type"=>"application/json", "X-Flow-Identifier"=>nil}, ["{\"status\":\"error\",\"message\":\"An error has occurred\"}"]]
+ => [500, {"Content-Type"=>"application/json"}, ["{\"status\":\"error\",\"message\":\"An error has occurred\"}"]]
 ```
 
 ## Development
